@@ -30,6 +30,6 @@ def add_to_filemenu():
     m = menubar.menu('File')
 
     m.addSeparator(index=6)
-    m.addCommand('Publish', 'pyblish.main.publish_all()', index=7)
-    m.addCommand('Validate', 'pyblish.main.validate_all()', index=8)
+    m.addCommand('Publish', 'import pyblish.main;pyblish.main.publish_all()', index=7)
+    m.addCommand('Validate', 'import pyblish.main;pyblish.main.validate_all()', index=8)
     m.addSeparator(index=9)
