@@ -1,7 +1,3 @@
-import logging
-
-logging.basicConfig()
-
 try:
     import pyblish_nuke.lib
 except ImportError:
