@@ -5,11 +5,6 @@
 
 from setuptools import setup, find_packages
 
-
-with open('README.txt') as f:
-    readme = f.read()
-
-
 import os
 import imp
 
@@ -45,8 +40,8 @@ setup(
     license='LGPL',
     author='Abstract Factory and Contributors',
     author_email='marcus@abstractfactory.io',
-    description=get_readme(),
-    long_description=readme,
+    description='Nuke integration of Pyblish',
+    long_description=get_readme(),
     zip_safe=False,
     classifiers=classifiers,
     package_data={
