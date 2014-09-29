@@ -1,0 +1,15 @@
+language: python
+python:
+- 2.6
+- 2.7
+script:
+- pip install git+git://github.com/abstractfactory/pyblish-nuke.git
+deploy:
+  provider: pypi
+  user: mottosso
+  distributions: "sdist"
+  password:
+    secure: D0BBShinuPvKvCDVm6b3Gq4z5TMAcphDA3+HQY9z9Lqb1HOQtxVjbh5FeTxrDw66nJxNiqdGqiVgAwZ0eNXbetsEeRIrpQgNHDY7H7YZZ+UHbrYsA+tdwyPpeshqxSWnjzanUXXiyf9GL3hFAiDGJvAWEfEAM7ChnhJ0TOvnQa0=
+  on:
+    tags: true
+    all_branches: true
