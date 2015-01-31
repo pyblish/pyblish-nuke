@@ -1,11 +1,22 @@
 import logging
+
+import nuke
+
 logging.basicConfig()
 
 try:
-    import pyblish_nuke.lib
-except ImportError:
-    raise ImportError("Couldn't find pyblish_nuke on your PYTHONPATH")
+    __import__("pyblish_nuke")
 
-# Register Nuke plugins upon startup
-pyblish_nuke.lib.register_plugins()
-pyblish_nuke.lib.add_to_filemenu()
+except ImportError as e:
+    nuke.tprint("pyblish: Could not load integration: %s " % e)
+
+else:
+
+    import pyblish_nuke.lib
+    import pyblish_nuke.frontend
+
+    # Setup integration
+    pyblish_nuke.lib.setup()
+
+    # Setup frontend
+    pyblish_nuke.frontend.setup()
