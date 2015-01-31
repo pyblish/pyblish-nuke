@@ -11,6 +11,14 @@ GUI = None
 
 
 def show(console=False):
+
+    python_paths = []
+    for dir in os.environ['PATH'].split(';'):
+        if os.path.exists(dir):
+            for f in os.listdir(dir):
+                if f == "python.exe":
+                    python_paths.append(os.path.join(dir, f))
+
     if not GUI:
         raise ValueError("No GUI registered")
 
@@ -22,7 +30,7 @@ def show(console=False):
     port = os.environ["ENDPOINT_PORT"]
 
     CREATE_NO_WINDOW = 0x08000000
-    proc = subprocess.Popen(["python", "-m", "pyblish_qml.app",
+    proc = subprocess.Popen([python_paths[0], "-m", "pyblish_qml.app",
                              "--port", str(port)])
 
     # Kill child process on Nuke exit
