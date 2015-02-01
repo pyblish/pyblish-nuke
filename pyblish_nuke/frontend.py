@@ -10,14 +10,38 @@ import nuke
 GUI = None
 
 
-def show(console=False):
+def is_executable(fpath):
+    return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
 
-    python_paths = []
-    for dir in os.environ['PATH'].split(';'):
-        if os.path.exists(dir):
-            for f in os.listdir(dir):
-                if f == "python.exe":
-                    python_paths.append(os.path.join(dir, f))
+
+def where(program):
+    """Parse PATH for executables
+
+    Windows note:
+        PATHEXT yields possible suffixes, such as .exe, .bat and .cmd
+
+    Usage:
+        >>> where("python")
+        c:\python27\python.exe
+
+    """
+
+    suffixes = [""]
+
+    try:
+        # Append Windows suffixes, such as .exe, .bat and .cmd
+        suffixes.extend(os.environ.get("PATHEXT").split(os.pathsep))
+    except:
+        pass
+
+    for path in os.environ["PATH"].split(os.pathsep):
+        for suffix in suffixes:
+            full_path = os.path.join(path, program + suffix)
+            if os.path.isfile(full_path):
+                return full_path
+
+
+def show(console=False):
 
     if not GUI:
         raise ValueError("No GUI registered")
@@ -30,7 +54,7 @@ def show(console=False):
     port = os.environ["ENDPOINT_PORT"]
 
     CREATE_NO_WINDOW = 0x08000000
-    proc = subprocess.Popen([python_paths[0], "-m", "pyblish_qml.app",
+    proc = subprocess.Popen([where('python'), "-m", "pyblish_qml.app",
                              "--port", str(port)])
 
     # Kill child process on Nuke exit
@@ -114,8 +138,13 @@ def register_gui(gui):
 
 def add_to_filemenu():
     menubar = nuke.menu('Nuke')
-    m = menubar.menu('File')
+    menu = menubar.menu('File')
 
-    m.addCommand('Publish',
-                 'import pyblish_nuke.frontend;pyblish_nuke.frontend.show()',
-                 index=7)
+    menu.removeItem('Publish')
+    submenu = menu.addMenu('Publish', index=7)
+
+    cmd = 'import pyblish.main;pyblish.main.publish_all()'
+    submenu.addCommand('Publish', cmd)
+
+    cmd = 'import pyblish_nuke.frontend;pyblish_nuke.frontend.show()'
+    submenu.addCommand('Publish UI', cmd)
