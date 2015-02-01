@@ -2,7 +2,7 @@ import logging
 
 import nuke
 
-logging.basicConfig()
+logging.basicConfig(level=logging.DEBUG)
 
 try:
     __import__("pyblish_nuke")
