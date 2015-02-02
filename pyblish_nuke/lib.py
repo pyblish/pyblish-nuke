@@ -14,6 +14,12 @@ import nuke
 
 log = logging.getLogger('pyblish')
 
+
+def setup():
+    register_plugins()
+    add_to_filemenu()
+
+
 def register_plugins():
     # Register accompanying plugins
     package_path = os.path.dirname(pyblish_nuke.__file__)
@@ -30,6 +36,10 @@ def add_to_filemenu():
     m = menubar.menu('File')
 
     m.addSeparator(index=6)
-    m.addCommand('Publish', 'import pyblish.main;pyblish.main.publish_all()', index=7)
-    m.addCommand('Validate', 'import pyblish.main;pyblish.main.validate_all()', index=8)
+    m.addCommand('Publish',
+                 'import pyblish.main;pyblish.main.publish_all()',
+                 index=7)
+    m.addCommand('Validate',
+                 'import pyblish.main;pyblish.main.validate_all()',
+                 index=8)
     m.addSeparator(index=9)
