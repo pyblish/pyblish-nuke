@@ -35,6 +35,11 @@ def where(program):
         pass
 
     for path in os.environ["PATH"].split(os.pathsep):
+
+        # A path may be empty.
+        if not path:
+            continue
+
         for suffix in suffixes:
             full_path = os.path.join(path, program + suffix)
             if os.path.isfile(full_path):
