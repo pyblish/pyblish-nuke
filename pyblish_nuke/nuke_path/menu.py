@@ -6,6 +6,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 try:
     __import__("pyblish_nuke")
+    __import__("pyblish")
 
 except ImportError as e:
     nuke.tprint("pyblish: Could not load integration: %s " % e)
