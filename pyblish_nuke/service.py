@@ -10,9 +10,9 @@ class NukeService(pyblish_endpoint.service.EndpointService):
         return nuke.executeInMainThreadWithResult(
             super(NukeService, self).init, args, kwargs)
 
-    def process(self, *args, **kwargs):
+    def next(self, *args, **kwargs):
         return nuke.executeInMainThreadWithResult(
-            super(NukeService, self).process, args, kwargs)
+            super(NukeService, self).next, args, kwargs)
 
     def versions(self):
         versions = super(NukeService, self).versions()
