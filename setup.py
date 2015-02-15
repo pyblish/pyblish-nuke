@@ -36,7 +36,7 @@ setup(
     name='pyblish-nuke',
     version=version,
     packages=find_packages(),
-    url='https://github.com/abstractfactory/pyblish-nuke',
+    url='https://github.com/pyblish/pyblish-nuke',
     license='LGPL',
     author='Abstract Factory and Contributors',
     author_email='marcus@abstractfactory.io',
@@ -48,4 +48,7 @@ setup(
         'pyblish_nuke': ['plugins/*.py',
                          'nuke_path/*.py']
     },
+    install_requires=["pyblish>=1.0.12",
+                      "pyblish-endpoint>=1.1.0",
+                      "pyblish-qml>=0.2.0"]
 )
