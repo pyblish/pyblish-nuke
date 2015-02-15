@@ -36,7 +36,7 @@ setup(
     name='pyblish-nuke',
     version=version,
     packages=find_packages(),
-    url='https://github.com/abstractfactory/pyblish-nuke',
+    url='https://github.com/pyblish/pyblish-nuke',
     license='LGPL',
     author='Abstract Factory and Contributors',
     author_email='marcus@abstractfactory.io',
