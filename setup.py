@@ -48,7 +48,7 @@ setup(
         'pyblish_nuke': ['plugins/*.py',
                          'nuke_path/*.py']
     },
-    install_requires=["pyblish>=1.0.11",
+    install_requires=["pyblish>=1.0.12",
                       "pyblish-endpoint>=1.1.0",
                       "pyblish-qml>=0.2.0"]
 )
