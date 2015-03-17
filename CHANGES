@@ -1,0 +1,9 @@
+pyblish-nuke Changelog
+=================
+
+This contains all major version changes between pyblish-nuke releases.
+
+Version 1.0.0
+--------------
+
+- Working version compatible with pyblish-qml 0.2.6
