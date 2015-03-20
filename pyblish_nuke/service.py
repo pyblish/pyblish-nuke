@@ -12,8 +12,8 @@ class NukeService(pyblish_endpoint.service.EndpointService):
         orig = super(NukeService, self).init
         return wrapper(orig, args, kwargs)
 
-    def next(self, *args, **kwargs):
-        orig = super(NukeService, self).next
+    def process(self, *args, **kwargs):
+        orig = super(NukeService, self).process
         return wrapper(orig, args, kwargs)
 
     def versions(self):
