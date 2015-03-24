@@ -6,6 +6,7 @@ import atexit
 import subprocess
 import threading
 import random
+import sys
 
 # Pyblish libraries
 import pyblish.api
@@ -186,8 +187,8 @@ def filemenu_publish():
         sys.stderr.write("Message was: %s\n" % e)
         sys.stderr.write("Publishing in headless mode instead.\n")
 
-        import publish.main
-        pyblish.main.publish_all()
+        import pyblish.util
+        pyblish.util.publish()
 
 
 def add_to_filemenu():
