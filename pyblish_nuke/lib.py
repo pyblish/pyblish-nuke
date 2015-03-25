@@ -1,12 +1,10 @@
 # Standard library
 import os
-import inspect
-import logging
-import atexit
-import subprocess
-import threading
-import random
 import sys
+import random
+import logging
+import traceback
+import subprocess
 
 # Pyblish libraries
 import pyblish.api
@@ -31,8 +29,14 @@ def show(console=False, prefer_cached=True):
     is False.
     """
 
+    global cached_process
+
     if cached_process and prefer_cached:
-        return _show_cached()
+        still_running = cached_process.poll() is None
+        if still_running:
+            return _show_cached()
+        else:
+            cached_process = None
     return _show_new(console)
 
 
@@ -43,7 +47,7 @@ def _show_cached():
 
     import pyblish_endpoint.client
 
-    pyblish_endpoint.client.request("show")
+    pyblish_endpoint.client.emit("show")
 
     return cached_process
 
@@ -57,11 +61,8 @@ def _show_new(console=False):
                          "have been run, could not find the PORT variable")
 
     pid = os.getpid()
-    kwargs = dict(args=["python", "-m", "pyblish_qml",
-                        "--port", port, "--pid", pid])
-
-    if not console and os.name == "nt":
-        kwargs["creationflags"] = CREATE_NO_WINDOW
+    kwargs = dict(args=[where("python"), "-m", "pyblish_qml",
+                        "--port", str(port), "--pid", str(pid)])
 
     log.info("Creating a new instance of Pyblish QML")
     proc = subprocess.Popen(**kwargs)
@@ -182,9 +183,13 @@ def filemenu_publish():
     try:
         import pyblish_nuke.lib
         pyblish_nuke.lib.show()
-    except Exception as e:
+    except Exception:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        message = "".join(traceback.format_exception(
+            exc_type, exc_value, exc_traceback))
+
         sys.stderr.write("Tried launching GUI, but failed.\n")
-        sys.stderr.write("Message was: %s\n" % e)
+        sys.stderr.write("Message was: %s\n" % message)
         sys.stderr.write("Publishing in headless mode instead.\n")
 
         import pyblish.util
