@@ -1,6 +1,5 @@
 # Dependencies
 import pyblish_endpoint.service
-from .version import version
 
 import nuke
 
@@ -16,7 +15,6 @@ class NukeService(pyblish_endpoint.service.EndpointService):
         orig = super(NukeService, self).process
         return wrapper(orig, args, kwargs)
 
-    def versions(self):
-        versions = super(NukeService, self).versions()
-        versions["pyblish-nuke"] = version
-        return versions
+    def repair(self, *args, **kwargs):
+        orig = super(NukeService, self).repair
+        return wrapper(orig, args, kwargs)
