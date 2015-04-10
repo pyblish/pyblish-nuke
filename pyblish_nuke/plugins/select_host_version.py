@@ -14,4 +14,4 @@ class SelectHostVersion(pyblish.api.Selector):
     version = (0, 1, 0)
 
     def process_context(self, context):
-        context.set_data('host_version', value=nuke.NUKE_VERSION_STRING)
+        context.set_data('hostVersion', value=nuke.NUKE_VERSION_STRING)
