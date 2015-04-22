@@ -24,9 +24,11 @@ CREATE_NO_WINDOW = 0x08000000
 
 def show(console=False, prefer_cached=True):
     """Show the Pyblish graphical user interface
+
     An interface may already have been loaded; if that's the
     case, we favour it to launching a new unless `prefer_cached`
     is False.
+
     """
 
     global cached_process
@@ -42,7 +44,9 @@ def show(console=False, prefer_cached=True):
 
 def _show_cached():
     """Display cached gui
+
     A GUI is cached upon first being shown, or when pre-loaded.
+
     """
 
     import pyblish_endpoint.client
@@ -75,7 +79,9 @@ def _show_new(console=False):
 
 def setup(preload=True):
     """Setup integration
+
     Registers Pyblish for Nuke plug-ins and appends an item to the File-menu
+
     """
 
     register_plugins()
@@ -106,8 +112,10 @@ def register_plugins():
 
 def setup_endpoint():
     """Start Endpoint
+
     Raises:
         ImportError: If Pyblish Endpoint is not available
+
     """
 
     from service import NukeService
@@ -177,8 +185,7 @@ def where(program):
 
 
 def filemenu_publish():
-    """Add Pyblish to file-menu
-    """
+    """Add Pyblish to file-menu"""
 
     try:
         import pyblish_nuke.lib
@@ -197,8 +204,6 @@ def filemenu_publish():
 
 
 def add_to_filemenu():
-    """
-    """
     menubar = nuke.menu('Nuke')
     menu = menubar.menu('File')
 
@@ -206,3 +211,5 @@ def add_to_filemenu():
 
     cmd = 'import pyblish_nuke.lib;pyblish_nuke.lib.filemenu_publish()'
     menu.addCommand('Publish', cmd, index=9)
+
+    menu.addSeparator(index=10)
