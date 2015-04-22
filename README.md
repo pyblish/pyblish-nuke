@@ -5,11 +5,10 @@
 
 The Foundry Nuke integration of Pyblish
 
-- [Pyblish][pyblish]
+- [Pyblish][]
 - [Documentation][docs]
-- [Usergroup][usergroup]
 
-[pyblish]: https://github.com/pyblish/pyblish
+[Pyblish]: https://github.com/pyblish/pyblish
 [usergroup]: https://groups.google.com/forum/#!forum/pyblish
 [docs]: https://github.com/pyblish/pyblish-nuke/wiki
 [logo]: https://github.com/pyblish/pyblish/wiki/images/nuke-pyblish.png
