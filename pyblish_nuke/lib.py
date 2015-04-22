@@ -206,6 +206,3 @@ def add_to_filemenu():
 
     cmd = 'import pyblish_nuke.lib;pyblish_nuke.lib.filemenu_publish()'
     menu.addCommand('Publish', cmd, index=9)
-
-    cmd = 'import pyblish.main;pyblish.main.validate_all()'
-    menu.addCommand('Validate', cmd, index=10)
