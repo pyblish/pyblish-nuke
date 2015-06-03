@@ -17,7 +17,7 @@ class SelectCurrentFile(pyblish.api.Selector):
     hosts = ['nuke']
     version = (0, 1, 0)
 
-    def process_context(self, context):
+    def process(self, context):
         """Todo, inject the current working file"""
         current_file = nuke.root().name()
 

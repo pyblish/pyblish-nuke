@@ -1,5 +1,3 @@
-import os
-
 import pyblish.api
 
 
@@ -11,5 +9,5 @@ class SelectHostVersion(pyblish.api.Selector):
     hosts = ['nuke']
     version = (0, 1, 0)
 
-    def process_context(self, context):
+    def process(self, context):
         context.set_data('host', value='nuke')
