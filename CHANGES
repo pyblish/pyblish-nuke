@@ -3,6 +3,12 @@ pyblish-nuke Changelog
 
 This contains all major version changes between pyblish-nuke releases.
 
+Version 1.0.3
+--------------
+
+- Updated plug-ins to 1.1
+- Updated integration to Pyblish Integration
+
 Version 1.0.2
 -------------
 
