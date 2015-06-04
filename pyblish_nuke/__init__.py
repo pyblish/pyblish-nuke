@@ -1,6 +1,7 @@
 from .version import *
-
-import lib
-
-show = lib.show
-setup = lib.setup
+from .lib import (
+    show,
+    setup,
+    register_plugins,
+    add_to_filemenu,
+)

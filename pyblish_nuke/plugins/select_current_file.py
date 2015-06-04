@@ -7,17 +7,12 @@ import nuke
 
 @pyblish.api.log
 class SelectCurrentFile(pyblish.api.Selector):
-    """Inject the current working file into context
-
-    .. note:: This is mandatory for the supplied extractors
-    or else they will fail.
-
-    """
+    """Inject the current working file into context"""
 
     hosts = ['nuke']
     version = (0, 1, 0)
 
-    def process_context(self, context):
+    def process(self, context):
         """Todo, inject the current working file"""
         current_file = nuke.root().name()
 
