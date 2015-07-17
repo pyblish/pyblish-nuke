@@ -2,7 +2,6 @@
 import os
 import sys
 import traceback
-import contextlib
 
 # Pyblish libraries
 import pyblish.api
@@ -42,6 +41,8 @@ def setup(console=False):
     pyblish_integration.register_python_executable(where("python"))
     pyblish_integration.register_dispatch_wrapper(threaded_wrapper)
     pyblish_integration.setup(console)
+
+    pyblish.api.register_host("nuke")
 
     register_plugins()
     add_to_filemenu()
