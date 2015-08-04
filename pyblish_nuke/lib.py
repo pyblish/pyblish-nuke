@@ -42,12 +42,16 @@ def setup(console=False):
     pyblish_integration.register_dispatch_wrapper(threaded_wrapper)
     pyblish_integration.setup(console)
 
-    pyblish.api.register_host("nuke")
-
     register_plugins()
+    register_host()
     add_to_filemenu()
 
     pyblish_integration.echo("pyblish: Integration loaded..")
+
+
+def register_host():
+    """Register supported hosts"""
+    pyblish.api.register_host("nuke")
 
 
 def register_plugins():
