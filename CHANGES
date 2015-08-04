@@ -3,6 +3,11 @@ pyblish-nuke Changelog
 
 This contains all major version changes between pyblish-nuke releases.
 
+Version 1.1.1
+-------------
+
+- Exposed `register_host`
+
 Version 1.1.0
 -------------
 
