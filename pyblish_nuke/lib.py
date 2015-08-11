@@ -20,7 +20,7 @@ def show():
     pyblish_integration.show()
 
 
-def setup(console=False):
+def setup(console=False, port=None):
     """Setup integration
 
     Registers Pyblish for Maya plug-ins and appends an item to the File-menu
@@ -40,7 +40,7 @@ def setup(console=False):
 
     pyblish_integration.register_python_executable(where("python"))
     pyblish_integration.register_dispatch_wrapper(threaded_wrapper)
-    pyblish_integration.setup(console)
+    pyblish_integration.setup(console=console, port=port)
 
     register_plugins()
     register_host()
