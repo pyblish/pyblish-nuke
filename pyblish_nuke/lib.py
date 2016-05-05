@@ -2,6 +2,7 @@
 import os
 import sys
 import traceback
+import contextlib
 
 # Pyblish libraries
 import pyblish.api
@@ -23,17 +24,13 @@ def show():
 def setup(console=False, port=None):
     """Setup integration
 
-    Registers Pyblish for Maya plug-ins and appends an item to the File-menu
+    Registers Pyblish for Nuke plug-ins and appends an item to the File-menu
 
     Attributes:
         preload (bool): Preload the current GUI
         console (bool): Display console with GUI
 
     """
-
-    if not os.name == "nt":
-        return pyblish_integration.echo("Sorry, integration only"
-                                        "supported on Windows.")
 
     def threaded_wrapper(func, *args, **kwargs):
         return nuke.executeInMainThreadWithResult(func, args, kwargs)
@@ -122,3 +119,26 @@ def add_to_filemenu():
     menu.addCommand('Publish', cmd, index=9)
 
     menu.addSeparator(index=10)
+
+
+@contextlib.contextmanager
+def maintained_selection():
+    """Maintain selection during context
+
+    Example:
+        >>> with maintained_selection():
+        ...     # Modify selection
+        ...     nuke.toNode('group1')['selected'].setValue(True)
+        >>> # Selection restored
+
+    """
+
+    previous_selection = nuke.selectedNodes()
+    try:
+        yield
+    finally:
+        for i in nuke.allNodes():
+            if i in previous_selection:
+                i.knob('selected').setValue(True)
+            else:
+                i.knob('selected').setValue(False)

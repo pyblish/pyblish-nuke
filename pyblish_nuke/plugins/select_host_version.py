@@ -1,14 +1,13 @@
 import pyblish.api
 
-import nuke
 
-
-@pyblish.api.log
-class SelectHostVersion(pyblish.api.Selector):
+class CollectNukeHostVersion(pyblish.api.ContextPlugin):
     """Inject the hosts version into context"""
 
+    label = "Nuke Version"
     hosts = ['nuke']
-    version = (0, 1, 0)
+    order = pyblish.api.CollectorOrder - 0.5
 
     def process(self, context):
-        context.set_data('hostVersion', value=nuke.NUKE_VERSION_STRING)
+        import nuke
+        context.data['hostVersion'] = nuke.NUKE_VERSION_STRING
