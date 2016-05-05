@@ -2,6 +2,7 @@
 import os
 import sys
 import traceback
+import contextlib
 
 # Pyblish libraries
 import pyblish.api
@@ -118,3 +119,26 @@ def add_to_filemenu():
     menu.addCommand('Publish', cmd, index=9)
 
     menu.addSeparator(index=10)
+
+
+@contextlib.contextmanager
+def maintained_selection():
+    """Maintain selection during context
+
+    Example:
+        >>> with maintained_selection():
+        ...     # Modify selection
+        ...     nuke.toNode('group1')['selected'].setValue(True)
+        >>> # Selection restored
+
+    """
+
+    previous_selection = nuke.selectedNodes()
+    try:
+        yield
+    finally:
+        for i in nuke.allNodes():
+            if i in previous_selection:
+                i.knob('selected').setValue(True)
+            else:
+                i.knob('selected').setValue(False)
