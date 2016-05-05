@@ -5,4 +5,5 @@ from .lib import (
     register_plugins,
     register_host,
     add_to_filemenu,
+    maintained_selection,
 )
