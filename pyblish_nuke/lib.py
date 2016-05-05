@@ -23,17 +23,13 @@ def show():
 def setup(console=False, port=None):
     """Setup integration
 
-    Registers Pyblish for Maya plug-ins and appends an item to the File-menu
+    Registers Pyblish for Nuke plug-ins and appends an item to the File-menu
 
     Attributes:
         preload (bool): Preload the current GUI
         console (bool): Display console with GUI
 
     """
-
-    if not os.name == "nt":
-        return pyblish_integration.echo("Sorry, integration only"
-                                        "supported on Windows.")
 
     def threaded_wrapper(func, *args, **kwargs):
         return nuke.executeInMainThreadWithResult(func, args, kwargs)
