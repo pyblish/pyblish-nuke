@@ -8,6 +8,7 @@ import nuke
 class SelectCurrentFile(pyblish.api.ContextPlugin):
     """Inject the current working file into context"""
 
+	label = "Current File"
     hosts = ['nuke']
     order = pyblish.api.CollectorOrder - 0.5
     version = (0, 1, 0)
