@@ -4,6 +4,7 @@ import pyblish.api
 class SelectHostVersion(pyblish.api.ContextPlugin):
     """Inject the host into context"""
 
+	label = "Host Version"
     hosts = ["nuke"]
     order = pyblish.api.CollectorOrder - 0.5
     version = (0, 1, 0)
