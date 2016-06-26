@@ -48,6 +48,21 @@ import pyblish_nuke
 pyblish_nuke.setup()
 ```
 
+![](https://cloud.githubusercontent.com/assets/2152766/7269936/f64c8cc8-e8cf-11e4-9550-6d3c70ce6b02.png)
+
+<br>
+<br>
+<br>
+
+### Persistence
+
+It is recommended that you allow Pyblish to load upon launching Nuke. For this, you have two options.
+
+1. Add the above snippet to your `.nuke/menu.py` in your home directory.
+2. Add the `pyblish_nuke/nuke_path` directory to your `NUKE_PATH` environment variable
+
+As you will find, this directory contains a `menu.py` with the same command. Nuke will run this upon startup, along with any other `menu.py` available.
+
 <br>
 <br>
 <br>
