@@ -48,8 +48,6 @@ import pyblish_nuke
 pyblish_nuke.setup()
 ```
 
-![](https://cloud.githubusercontent.com/assets/2152766/7269936/f64c8cc8-e8cf-11e4-9550-6d3c70ce6b02.png)
-
 <br>
 <br>
 <br>
@@ -62,6 +60,8 @@ It is recommended that you allow Pyblish to load upon launching Nuke. For this, 
 2. Add the `pyblish_nuke/nuke_path` directory to your `NUKE_PATH` environment variable
 
 As you will find, this directory contains a `menu.py` with the same command. Nuke will run this upon startup, along with any other `menu.py` available.
+
+![](https://cloud.githubusercontent.com/assets/2152766/7269936/f64c8cc8-e8cf-11e4-9550-6d3c70ce6b02.png)
 
 <br>
 <br>
@@ -85,8 +85,6 @@ The `setup()` command will:
 
 1. Register Nuke related ["hosts"](http://api.pyblish.com/pages/Plugin.hosts.html), allowing plug-ins to be filtered accordingly.
 3. Register a minimal set of plug-ins that are common across all integrations.
-
-![image](https://cloud.githubusercontent.com/assets/2152766/16318991/49012c02-3989-11e6-9602-7ec3d7823b77.png)
 
 <br>
 <br>
