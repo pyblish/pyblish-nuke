@@ -13,7 +13,7 @@ except ImportError as e:
 
 else:
 
-    import pyblish_nuke.lib
+    import pyblish_nuke
 
     # Setup integration
-    pyblish_nuke.lib.setup()
+    pyblish_nuke.setup()
