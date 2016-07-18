@@ -13,7 +13,12 @@ except ImportError as e:
 
 else:
 
+    import pyblish.api
     import pyblish_nuke
 
     # Setup integration
     pyblish_nuke.setup()
+
+    # register default guis
+    pyblish.api.register_gui("pyblish_qml")
+    pyblish.api.register_gui("pyblish_lite")
