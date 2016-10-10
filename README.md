@@ -118,11 +118,12 @@ pyblish_nuke.show(menu=False)
 
 ##### Dockable GUI
 
-Should you want to dock the pyblish UI, pass `dock=True`.
+Should you want to dock the pyblish UI, there is a convenience function to help.
 
 ```python
 import pyblish_nuke
-pyblish_nuke.show(dock=True)
+window = pyblish_nuke.show()
+pyblish_nuke.dock(window)
 ```
 
 <br>

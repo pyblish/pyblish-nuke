@@ -11,11 +11,8 @@ import nukescripts
 
 # Local libraries
 from . import plugins
+from .vendor.Qt import QtWidgets, QtGui
 
-try:
-    from .vendor.Qt import QtWidgets, QtGui
-except ImportError:
-    raise ImportError("Pyblish requires either PySide or PyQt bindings.")
 
 cached_process = None
 
@@ -24,10 +21,9 @@ self = sys.modules[__name__]
 self._has_been_setup = False
 self._has_menu = False
 self._registered_gui = None
-self._dock = False
 
 
-def setup(console=False, port=None, menu=True, dock=False):
+def setup(console=False, port=None, menu=True):
     """Setup integration
 
     Registers Pyblish for Maya plug-ins and appends an item to the File-menu
@@ -50,11 +46,6 @@ def setup(console=False, port=None, menu=True, dock=False):
         add_to_filemenu()
         self._has_menu = True
 
-    if dock:
-        self._dock = True
-    else:
-        self._dock = False
-
     self._has_been_setup = True
     print("pyblish: Loaded successfully.")
 
@@ -69,9 +60,6 @@ def show():
     """
 
     window = (_discover_gui() or _show_no_gui)()
-
-    if self._dock:
-        dock_window(window)
 
     return window
 
@@ -264,12 +252,8 @@ class pyblish_nuke_dockwidget(QtWidgets.QWidget):
         self.setObjectName("pyblish_nuke.dock")
 
 
-def dock_window(widget):
-
-    # delete existing dock
-    for obj in QtWidgets.QApplication.allWidgets():
-        if obj.objectName() == "pyblish_nuke.dock":
-            obj.deleteLater()
+def dock(window):
+    """ Expecting a window to parent into a Nuke panel, that is dockable. """
 
     pane = nuke.getPaneFor("Properties.1")
     widget_path = "pyblish_nuke.lib.pyblish_nuke_dockwidget"
@@ -280,4 +264,4 @@ def dock_window(widget):
 
     panel_widget = panel.customKnob.getObject().widget
     _nuke_set_zero_margins(panel_widget)
-    panel_widget.layout().addWidget(widget)
+    panel_widget.layout().addWidget(window)
