@@ -2,8 +2,6 @@
 import os
 import sys
 
-from Qt import QtWidgets
-
 # Pyblish libraries
 import pyblish.api
 
@@ -13,6 +11,11 @@ import nukescripts
 
 # Local libraries
 from . import plugins
+
+try:
+    from .vendor.Qt import QtWidgets, QtGui
+except ImportError:
+    raise ImportError("Pyblish requires either PySide or PyQt bindings.")
 
 cached_process = None
 
@@ -49,6 +52,8 @@ def setup(console=False, port=None, menu=True, dock=False):
 
     if dock:
         self._dock = True
+    else:
+        self._dock = False
 
     self._has_been_setup = True
     print("pyblish: Loaded successfully.")
@@ -66,7 +71,7 @@ def show():
     window = (_discover_gui() or _show_no_gui)()
 
     if self._dock:
-        dock_gui(window)
+        dock_window(window)
 
     return window
 
@@ -103,7 +108,10 @@ def teardown():
 
 
 def remove_from_filemenu():
-    raise NotImplementedError("Implement me please.")
+    menubar = nuke.menu('Nuke')
+    menu = menubar.menu('File')
+
+    menu.removeItem("Publish")
 
 
 def deregister_plugins():
@@ -153,11 +161,6 @@ def _show_no_gui():
     through how to get set up with one.
 
     """
-
-    try:
-        from .vendor.Qt import QtWidgets, QtGui
-    except ImportError:
-        raise ImportError("Pyblish requires either PySide or PyQt bindings.")
 
     messagebox = QtWidgets.QMessageBox()
     messagebox.setIcon(messagebox.Warning)
@@ -261,7 +264,7 @@ class pyblish_nuke_dockwidget(QtWidgets.QWidget):
         self.setObjectName("pyblish_nuke.dock")
 
 
-def dock_gui(widget):
+def dock_window(widget):
 
     # delete existing dock
     for obj in QtWidgets.QApplication.allWidgets():
