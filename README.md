@@ -108,8 +108,8 @@ pyblish_nuke.show()
 Should you not want a menu-item, pass `menu=False`.
 
 ```python
-import pyblish_maya
-pyblish_maya.show(menu=False)
+import pyblish_nuke
+pyblish_nuke.show(menu=False)
 ```
 
 <br>
