@@ -115,6 +115,20 @@ pyblish_nuke.show(menu=False)
 <br>
 <br>
 <br>
+
+##### Dockable GUI
+
+Should you want to dock the pyblish UI, pass `dock=True`.
+
+```python
+import pyblish_nuke
+pyblish_nuke.show(dock=True)
+```
+
+<br>
+<br>
+<br>
+
 ##### Teardown pyblish-nuke
 
 To get rid of the menu, and completely remove any trace of pyblish-nuke from your Nuke session, run `teardown()`.
