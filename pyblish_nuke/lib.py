@@ -7,9 +7,12 @@ import pyblish.api
 
 # Host libraries
 import nuke
+import nukescripts
 
 # Local libraries
 from . import plugins
+from .vendor.Qt import QtWidgets, QtGui
+
 
 cached_process = None
 
@@ -56,7 +59,9 @@ def show():
 
     """
 
-    return (_discover_gui() or _show_no_gui)()
+    window = (_discover_gui() or _show_no_gui)()
+
+    return window
 
 
 def _discover_gui():
@@ -91,7 +96,10 @@ def teardown():
 
 
 def remove_from_filemenu():
-    raise NotImplementedError("Implement me please.")
+    menubar = nuke.menu('Nuke')
+    menu = menubar.menu('File')
+
+    menu.removeItem("Publish")
 
 
 def deregister_plugins():
@@ -141,11 +149,6 @@ def _show_no_gui():
     through how to get set up with one.
 
     """
-
-    try:
-        from .vendor.Qt import QtWidgets, QtGui
-    except ImportError:
-        raise ImportError("Pyblish requires either PySide or PyQt bindings.")
 
     messagebox = QtWidgets.QMessageBox()
     messagebox.setIcon(messagebox.Warning)
@@ -215,3 +218,50 @@ def _show_no_gui():
 
 def where(program):
     """DEPRECATED"""
+
+
+def _nuke_set_zero_margins(widget_object):
+    """Remove Nuke margins when docked UI
+    .. _More info:
+        https://gist.github.com/maty974/4739917
+    """
+    parentApp = QtWidgets.QApplication.allWidgets()
+    parentWidgetList = []
+    for parent in parentApp:
+        for child in parent.children():
+            if widget_object.__class__.__name__ == child.__class__.__name__:
+                parentWidgetList.append(
+                    parent.parentWidget())
+                parentWidgetList.append(
+                    parent.parentWidget().parentWidget())
+                parentWidgetList.append(
+                    parent.parentWidget().parentWidget().parentWidget())
+
+                for sub in parentWidgetList:
+                        for tinychild in sub.children():
+                            try:
+                                tinychild.setContentsMargins(0, 0, 0, 0)
+                            except:
+                                pass
+
+
+class pyblish_nuke_dockwidget(QtWidgets.QWidget):
+    def __init__(self):
+        QtWidgets.QWidget.__init__(self)
+        QtWidgets.QVBoxLayout(self)
+        self.setObjectName("pyblish_nuke.dock")
+
+
+def dock(window):
+    """ Expecting a window to parent into a Nuke panel, that is dockable. """
+
+    pane = nuke.getPaneFor("Properties.1")
+    widget_path = "pyblish_nuke.lib.pyblish_nuke_dockwidget"
+    panel = nukescripts.panels.registerWidgetAsPanel(widget_path,
+                                                     "Pyblish",
+                                                     "pyblish_nuke.dock",
+                                                     True).addToPane(pane)
+
+    panel_widget = panel.customKnob.getObject().widget
+    _nuke_set_zero_margins(panel_widget)
+    panel_widget.layout().addWidget(window)

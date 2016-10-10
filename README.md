@@ -108,13 +108,28 @@ pyblish_nuke.show()
 Should you not want a menu-item, pass `menu=False`.
 
 ```python
-import pyblish_maya
-pyblish_maya.show(menu=False)
+import pyblish_nuke
+pyblish_nuke.show(menu=False)
 ```
 
 <br>
 <br>
 <br>
+
+##### Dockable GUI
+
+Should you want to dock the pyblish UI, there is a convenience function to help.
+
+```python
+import pyblish_nuke
+window = pyblish_nuke.show()
+pyblish_nuke.dock(window)
+```
+
+<br>
+<br>
+<br>
+
 ##### Teardown pyblish-nuke
 
 To get rid of the menu, and completely remove any trace of pyblish-nuke from your Nuke session, run `teardown()`.
