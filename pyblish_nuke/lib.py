@@ -2,11 +2,14 @@
 import os
 import sys
 
+from Qt import QtWidgets
+
 # Pyblish libraries
 import pyblish.api
 
 # Host libraries
 import nuke
+import nukescripts
 
 # Local libraries
 from . import plugins
@@ -18,9 +21,10 @@ self = sys.modules[__name__]
 self._has_been_setup = False
 self._has_menu = False
 self._registered_gui = None
+self._dock = False
 
 
-def setup(console=False, port=None, menu=True):
+def setup(console=False, port=None, menu=True, dock=False):
     """Setup integration
 
     Registers Pyblish for Maya plug-ins and appends an item to the File-menu
@@ -43,6 +47,9 @@ def setup(console=False, port=None, menu=True):
         add_to_filemenu()
         self._has_menu = True
 
+    if dock:
+        self._dock = True
+
     self._has_been_setup = True
     print("pyblish: Loaded successfully.")
 
@@ -56,7 +63,12 @@ def show():
 
     """
 
-    return (_discover_gui() or _show_no_gui)()
+    window = (_discover_gui() or _show_no_gui)()
+
+    if self._dock:
+        dock_gui(window)
+
+    return window
 
 
 def _discover_gui():
@@ -215,3 +227,54 @@ def _show_no_gui():
 
 def where(program):
     """DEPRECATED"""
+
+
+def _nuke_set_zero_margins(widget_object):
+    """Remove Nuke margins when docked UI
+    .. _More info:
+        https://gist.github.com/maty974/4739917
+    """
+    parentApp = QtWidgets.QApplication.allWidgets()
+    parentWidgetList = []
+    for parent in parentApp:
+        for child in parent.children():
+            if widget_object.__class__.__name__ == child.__class__.__name__:
+                parentWidgetList.append(
+                    parent.parentWidget())
+                parentWidgetList.append(
+                    parent.parentWidget().parentWidget())
+                parentWidgetList.append(
+                    parent.parentWidget().parentWidget().parentWidget())
+
+                for sub in parentWidgetList:
+                        for tinychild in sub.children():
+                            try:
+                                tinychild.setContentsMargins(0, 0, 0, 0)
+                            except:
+                                pass
+
+
+class pyblish_nuke_dockwidget(QtWidgets.QWidget):
+    def __init__(self):
+        QtWidgets.QWidget.__init__(self)
+        QtWidgets.QVBoxLayout(self)
+        self.setObjectName("pyblish_nuke.dock")
+
+
+def dock_gui(widget):
+
+    # delete existing dock
+    for obj in QtWidgets.QApplication.allWidgets():
+        if obj.objectName() == "pyblish_nuke.dock":
+            obj.deleteLater()
+
+    pane = nuke.getPaneFor("Properties.1")
+    widget_path = "pyblish_nuke.lib.pyblish_nuke_dockwidget"
+    panel = nukescripts.panels.registerWidgetAsPanel(widget_path,
+                                                     "Pyblish",
+                                                     "pyblish_nuke.dock",
+                                                     True).addToPane(pane)
+
+    panel_widget = panel.customKnob.getObject().widget
+    _nuke_set_zero_margins(panel_widget)
+    panel_widget.layout().addWidget(widget)
