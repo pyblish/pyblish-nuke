@@ -258,7 +258,7 @@ def dock(window):
     pane = nuke.getPaneFor("Properties.1")
     widget_path = "pyblish_nuke.lib.pyblish_nuke_dockwidget"
     panel = nukescripts.panels.registerWidgetAsPanel(widget_path,
-                                                     "Pyblish",
+                                                     window.windowTitle(),
                                                      "pyblish_nuke.dock",
                                                      True).addToPane(pane)
 
