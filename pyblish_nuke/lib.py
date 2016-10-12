@@ -21,6 +21,7 @@ self = sys.modules[__name__]
 self._has_been_setup = False
 self._has_menu = False
 self._registered_gui = None
+self._dock = None
 
 
 def setup(console=False, port=None, menu=True):
@@ -255,6 +256,37 @@ class pyblish_nuke_dockwidget(QtWidgets.QWidget):
 def dock(window):
     """ Expecting a window to parent into a Nuke panel, that is dockable. """
 
+    # Deleting existing dock
+    # There is a bug where existing docks are kept in-memory when closed via UI
+    if self._dock:
+        print "Deleting existing dock..."
+        self._dock.layout().addWidget(window)
+
+        parent = self._dock
+        dialog = None
+        stacked_widget = None
+        main_windows = []
+        # getting dock parents
+        while parent:
+            if parent.__class__.__name__ == "QDialog":
+                dialog = parent
+            if parent.__class__.__name__ == "QStackedWidget":
+                stacked_widget = parent
+            if parent.__class__.__name__ == "QMainWindow":
+                main_windows.append(parent)
+            parent = parent.parent()
+
+        dialog.deleteLater()
+
+        # if there are more than one main window, its a floating window
+        if len(main_windows) > 1:
+            # if the stacked widget only contains 1 widget, its empty
+            # and we can close the empty floating window.
+            # This is natural Nuke UI behaviour.
+            if stacked_widget.count() == 1:
+                main_windows[0].deleteLater()
+
+    # creating new dock
     pane = nuke.getPaneFor("Properties.1")
     widget_path = "pyblish_nuke.lib.pyblish_nuke_dockwidget"
     panel = nukescripts.panels.registerWidgetAsPanel(widget_path,
@@ -263,5 +295,8 @@ def dock(window):
                                                      True).addToPane(pane)
 
     panel_widget = panel.customKnob.getObject().widget
-    _nuke_set_zero_margins(panel_widget)
     panel_widget.layout().addWidget(window)
+    _nuke_set_zero_margins(panel_widget)
+    self._dock = panel_widget
+
+    return self._dock
