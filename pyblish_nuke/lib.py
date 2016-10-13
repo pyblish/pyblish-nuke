@@ -260,8 +260,6 @@ def dock(window):
     # There is a bug where existing docks are kept in-memory when closed via UI
     if self._dock:
         print "Deleting existing dock..."
-        self._dock.layout().addWidget(window)
-
         parent = self._dock
         dialog = None
         stacked_widget = None
@@ -269,22 +267,21 @@ def dock(window):
 
         # Getting dock parents
         while parent:
-            if parent.__class__.__name__ == "QDialog":
+            if isinstance(parent, QtWidgets.QDialog):
                 dialog = parent
-            if parent.__class__.__name__ == "QStackedWidget":
+            if isinstance(parent, QtWidgets.QStackedWidget):
                 stacked_widget = parent
-            if parent.__class__.__name__ == "QMainWindow":
+            if isinstance(parent, QtWidgets.QMainWindow):
                 main_windows.append(parent)
             parent = parent.parent()
 
         dialog.deleteLater()
 
-        # If there are more than one main window, its a floating window
         if len(main_windows) > 1:
-            # If the stacked widget only contains 1 widget, its empty
-            # and we can close the empty floating window.
-            # This is natural Nuke UI behaviour.
+            # Then it's a floating window
             if stacked_widget.count() == 1:
+                # Then it's empty and we can close it,
+                # as is native Nuke UI behaviour
                 main_windows[0].deleteLater()
 
     # Creating new dock
