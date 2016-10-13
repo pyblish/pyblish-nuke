@@ -266,7 +266,8 @@ def dock(window):
         dialog = None
         stacked_widget = None
         main_windows = []
-        # getting dock parents
+
+        # Getting dock parents
         while parent:
             if parent.__class__.__name__ == "QDialog":
                 dialog = parent
@@ -278,15 +279,15 @@ def dock(window):
 
         dialog.deleteLater()
 
-        # if there are more than one main window, its a floating window
+        # If there are more than one main window, its a floating window
         if len(main_windows) > 1:
-            # if the stacked widget only contains 1 widget, its empty
+            # If the stacked widget only contains 1 widget, its empty
             # and we can close the empty floating window.
             # This is natural Nuke UI behaviour.
             if stacked_widget.count() == 1:
                 main_windows[0].deleteLater()
 
-    # creating new dock
+    # Creating new dock
     pane = nuke.getPaneFor("Properties.1")
     widget_path = "pyblish_nuke.lib.pyblish_nuke_dockwidget"
     panel = nukescripts.panels.registerWidgetAsPanel(widget_path,
