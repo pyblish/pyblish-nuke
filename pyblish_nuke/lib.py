@@ -60,7 +60,8 @@ def show():
 
     """
 
-    window = (_discover_gui() or _show_no_gui)()
+    parent = QtGui.QApplication.activeWindow()
+    window = (_discover_gui() or _show_no_gui)(parent)
 
     return window
 
