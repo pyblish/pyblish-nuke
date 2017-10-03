@@ -143,7 +143,7 @@ def add_to_filemenu():
     menu.addSeparator(index=8)
 
     cmd = 'import pyblish_nuke;pyblish_nuke.show()'
-    menu.addCommand('Publish', cmd, index=9)
+    menu.addCommand('Publish', cmd, "ctrl+alt+p", index=9)
 
     menu.addSeparator(index=10)
 
