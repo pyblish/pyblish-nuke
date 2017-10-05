@@ -160,6 +160,6 @@ In the event that no GUI is registered upon running `setup()`, the button will p
 
 You can customize the integration with these environment variables:
 
-Environment Variable | Description
---- | ---
-```PYBLISH_HOTKEY``` | Hotkey for executing ```File > Publish```
+Environment Variable | Description | Examples
+--- | --- | ---
+```PYBLISH_HOTKEY``` | Hotkey for executing ```File > Publish``` | ```ctrl+p```, ```Ctrl+Alt+P```, ```CTRL+SHIFT+P```
