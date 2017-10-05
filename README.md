@@ -162,4 +162,4 @@ You can customize the integration with these environment variables:
 
 Environment Variable | Description | Examples
 --- | --- | ---
-```PYBLISH_HOTKEY``` | Hotkey for executing ```File > Publish``` | ```ctrl+p```, ```Ctrl+Alt+P```, ```CTRL+SHIFT+P```
+```PYBLISH_HOTKEY``` | Hotkey for executing ```File > Publish```. The hotkey is not case-sensitive. You can read more about it [here](https://www.thefoundry.co.uk/products/nuke/developers/63/pythondevguide/custom_ui.html#assigning-a-hotkey). | ```ctrl+p```, ```Ctrl+Alt+P```, ```CTRL+SHIFT+P```
