@@ -103,8 +103,8 @@ def teardown():
 
 
 def remove_from_filemenu():
-    menubar = nuke.menu('Nuke')
-    menu = menubar.menu('File')
+    menubar = nuke.menu("Nuke")
+    menu = menubar.menu("File")
 
     menu.removeItem("Publish")
 
@@ -137,13 +137,15 @@ def filemenu_publish():
 
 
 def add_to_filemenu():
-    menubar = nuke.menu('Nuke')
-    menu = menubar.menu('File')
+    menubar = nuke.menu("Nuke")
+    menu = menubar.menu("File")
 
     menu.addSeparator(index=8)
 
-    cmd = 'import pyblish_nuke;pyblish_nuke.show()'
-    menu.addCommand('Publish', cmd, index=9)
+    shortcut = os.environ.get("PYBLISH_HOTKEY", "")
+
+    cmd = "import pyblish_nuke;pyblish_nuke.show()"
+    menu.addCommand("Publish", cmd, shortcut, index=9)
 
     menu.addSeparator(index=10)
 

@@ -74,6 +74,7 @@ As you will find, this directory contains a `menu.py` with the same command. Nuk
 - [No menu-item](#no-menu-item)
 - [Teardown pyblish-nuke](#teardown-pyblish-nuke)
 - [No GUI](#no-gui)
+- [Environment Variables](#environment-variables)
 
 <br>
 <br>
@@ -154,3 +155,11 @@ In the event that no GUI is registered upon running `setup()`, the button will p
 ![image](https://cloud.githubusercontent.com/assets/2152766/16318883/ddf159f0-3988-11e6-8ef5-af5fd8dde725.png)
 
 ![image](https://cloud.githubusercontent.com/assets/2152766/16318893/e7d4cc9a-3988-11e6-92e9-c16037e51fb7.png)
+
+##### Environment Variables
+
+You can customize the integration with these environment variables:
+
+Environment Variable | Description | Examples
+--- | --- | ---
+```PYBLISH_HOTKEY``` | Hotkey for executing ```File > Publish```. The hotkey is not case-sensitive. You can read more about it [here](https://www.thefoundry.co.uk/products/nuke/developers/63/pythondevguide/custom_ui.html#assigning-a-hotkey). | ```ctrl+p```, ```Ctrl+Alt+P```, ```CTRL+SHIFT+P```
