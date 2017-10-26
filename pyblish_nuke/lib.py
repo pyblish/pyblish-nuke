@@ -11,7 +11,7 @@ import nukescripts
 
 # Local libraries
 from . import plugins
-from .vendor.Qt import QtWidgets, QtGui
+from .vendor.Qt import QtWidgets, QtGui, QtCore
 
 
 cached_process = None
@@ -144,10 +144,80 @@ def add_to_filemenu():
 
     shortcut = os.environ.get("PYBLISH_HOTKEY", "")
 
-    cmd = "import pyblish_nuke;pyblish_nuke.show()"
+    cmd = "import pyblish_nuke;pyblish_nuke.publish()"
     menu.addCommand("Publish", cmd, shortcut, index=9)
+    cmd = "import pyblish_nuke;pyblish_nuke.show()"
+    menu.addCommand("Publish...", cmd, shortcut, index=10)
 
-    menu.addSeparator(index=10)
+    menu.addSeparator(index=11)
+
+
+class Splash(QtWidgets.QWidget):
+    """Splash screen for publishing."""
+
+    def __init__(self, parent=None):
+        super(Splash, self).__init__(parent)
+        self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setWindowFlags(
+            QtCore.Qt.WindowStaysOnTopHint |
+            QtCore.Qt.FramelessWindowHint
+        )
+
+        pixmap = QtGui.QPixmap(
+            os.path.join(os.path.dirname(__file__), "splash.png")
+        )
+        image = QtWidgets.QLabel()
+        image.setPixmap(pixmap)
+
+        layout = QtWidgets.QVBoxLayout(self)
+        layout.addWidget(image)
+
+        # Center widget on screen
+        self.resize(100, 100)
+
+
+def publish():
+
+    splash = Splash()
+    splash.show()
+
+    def on_published(context):
+        try:
+            splash.close()
+        except RuntimeError:
+            # Splash already closed
+            pass
+
+        pyblish.api.deregister_callback(*callback)
+
+        errors = False
+        for r in context.data["results"]:
+            if r["error"]:
+                errors = True
+
+        messagebox = QtWidgets.QMessageBox()
+
+        pixmap_path = os.path.join(os.path.dirname(__file__), "success.png")
+        messagebox_text = "Publish successfull."
+        if errors:
+            pixmap_path = os.path.join(os.path.dirname(__file__), "failed.png")
+            messagebox_text = (
+                "Publish failed.\n\nSee script editor for details."
+            )
+
+        messagebox.setIconPixmap(QtGui.QPixmap(pixmap_path))
+
+        messagebox.setWindowTitle("Publish")
+        messagebox.setText(messagebox_text)
+        messagebox.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+
+        messagebox.exec_()
+
+    callback = "published", on_published
+    pyblish.api.register_callback(*callback)
+
+    QtCore.QTimer.singleShot(10, pyblish.util.publish)
 
 
 def _show_no_gui():
