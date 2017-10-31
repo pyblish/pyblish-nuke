@@ -173,6 +173,9 @@ class Splash(QtWidgets.QWidget):
         layout = QtWidgets.QVBoxLayout(self)
         layout.addWidget(image)
 
+        self.bar = QtGui.QProgressBar()
+        layout.addWidget(self.bar)
+
         # Center widget on screen
         self.resize(100, 100)
 
@@ -217,7 +220,12 @@ def publish():
     callback = "published", on_published
     pyblish.api.register_callback(*callback)
 
-    QtCore.QTimer.singleShot(10, pyblish.util.publish)
+    def publish_iter():
+
+        for percentage, result, context in pyblish.util.publish_iter():
+            splash.bar.setValue(percentage * 100)
+
+    QtCore.QTimer.singleShot(10, publish_iter)
 
 
 def _show_no_gui():
