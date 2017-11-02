@@ -222,8 +222,8 @@ def publish():
 
     def publish_iter():
 
-        for percentage, result, context in pyblish.util.publish_iter():
-            splash.bar.setValue(percentage * 100)
+        for result in pyblish.util.publish_iter():
+            splash.bar.setValue(result["percentage"] * 100)
 
     QtCore.QTimer.singleShot(10, publish_iter)
 
