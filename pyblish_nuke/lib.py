@@ -186,13 +186,13 @@ def publish():
     splash.show()
 
     def on_published(context):
+        pyblish.api.deregister_callback(*callback)
+
         try:
             splash.close()
         except RuntimeError:
             # Splash already closed
             pass
-
-        pyblish.api.deregister_callback(*callback)
 
         errors = False
         for r in context.data["results"]:
