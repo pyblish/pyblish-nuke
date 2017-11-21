@@ -9,7 +9,7 @@ try:
     __import__("pyblish")
 
     # Do not load integration in NukeStudio, Hiero or HieroPlayer
-    invalid_args = ["--hiero", "--player", "--studio"]
+    invalid_args = ["--hiero", "--player", "--studio", "--nukeassist"]
     if set(nuke.rawArgs) & set(invalid_args):
         raise ImportError("pyblish-nuke only works in Nuke or NukeX.")
 
