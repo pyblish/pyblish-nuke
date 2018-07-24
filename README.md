@@ -48,6 +48,16 @@ import pyblish_nuke
 pyblish_nuke.setup()
 ```
 
+#### Publishing
+
+There are two options in the file menu to publishing with:
+
+- ```Publish```: Publishing with a silent non-GUI publish, which is fast but does not show the registered GUI.
+![oct 31 2017 3-49 pm](https://user-images.githubusercontent.com/1860085/32230460-810fb154-be53-11e7-8bea-0c9a81cf8476.gif)
+- ```Publish...```: Publishing with the registered GUI.
+
+
+
 <br>
 <br>
 <br>

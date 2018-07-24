@@ -5,5 +5,6 @@ from .lib import (
     register_plugins,
     register_host,
     add_to_filemenu,
-    dock
+    dock,
+    publish
 )
