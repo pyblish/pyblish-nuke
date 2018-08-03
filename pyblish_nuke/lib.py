@@ -3,7 +3,8 @@ import os
 import sys
 
 # Pyblish libraries
-import pyblish.api
+import pyblish
+from pyblish import api, util
 
 # Host libraries
 import nuke
@@ -75,7 +76,7 @@ def _discover_gui():
     """Return the most desirable of the currently registered GUIs"""
 
     # Prefer last registered
-    guis = reversed(pyblish.api.registered_guis())
+    guis = reversed(api.registered_guis())
 
     for gui in guis:
         try:
@@ -112,28 +113,24 @@ def remove_from_filemenu():
 def deregister_plugins():
     # De-register accompanying plugins
     plugin_path = os.path.dirname(plugins.__file__)
-    pyblish.api.deregister_plugin_path(plugin_path)
+    api.deregister_plugin_path(plugin_path)
     print("pyblish: Deregistered %s" % plugin_path)
 
 
 def register_host():
     """Register supported hosts"""
-    pyblish.api.register_host("nuke")
+    api.register_host("nuke")
 
 
 def deregister_host():
     """De-register supported hosts"""
-    pyblish.api.deregister_host("nuke")
+    api.deregister_host("nuke")
 
 
 def register_plugins():
     # Register accompanying plugins
     plugin_path = os.path.dirname(plugins.__file__)
-    pyblish.api.register_plugin_path(plugin_path)
-
-
-def filemenu_publish():
-    """DEPRECATED"""
+    api.register_plugin_path(plugin_path)
 
 
 def add_to_filemenu():
@@ -186,7 +183,7 @@ def publish():
     splash.show()
 
     def on_published(context):
-        pyblish.api.deregister_callback(*callback)
+        api.deregister_callback(*callback)
 
         try:
             splash.close()
@@ -218,11 +215,11 @@ def publish():
         messagebox.exec_()
 
     callback = "published", on_published
-    pyblish.api.register_callback(*callback)
+    api.register_callback(*callback)
 
     def publish_iter():
 
-        for result in pyblish.util.publish_iter():
+        for result in util.publish_iter():
             splash.bar.setValue(result["progress"] * 100)
 
     QtCore.QTimer.singleShot(10, publish_iter)
@@ -256,7 +253,7 @@ def _show_no_gui():
     messagebox.setWindowTitle("Uh oh")
     messagebox.setText("No registered GUI found.")
 
-    if not pyblish.api.registered_guis():
+    if not api.registered_guis():
         messagebox.setInformativeText(
             "In order to show you a GUI, one must first be registered. "
             "Press \"Show details...\" below for information on how to "
@@ -277,8 +274,8 @@ def _show_no_gui():
             "Then register it, like so:"
             "\n"
             "\n"
-            ">>> import pyblish.api\n"
-            ">>> pyblish.api.register_gui(\"pyblish_lite\")"
+            ">>> from pyblish import api\n"
+            ">>> api.register_gui(\"pyblish_lite\")"
             "\n"
             "\n"
             "The next time you try running this, Lite will appear."
@@ -297,14 +294,10 @@ def _show_no_gui():
         messagebox.setDetailedText(
             "These interfaces are currently registered."
             "\n"
-            "%s" % "\n".join(pyblish.api.registered_guis()))
+            "%s" % "\n".join(api.registered_guis()))
 
     messagebox.setStandardButtons(messagebox.Ok)
     messagebox.exec_()
-
-
-def where(program):
-    """DEPRECATED"""
 
 
 def _nuke_set_zero_margins(widget_object):
@@ -328,7 +321,7 @@ def _nuke_set_zero_margins(widget_object):
                         for tinychild in sub.children():
                             try:
                                 tinychild.setContentsMargins(0, 0, 0, 0)
-                            except:
+                            except Exception:
                                 pass
 
 
@@ -345,7 +338,7 @@ def dock(window):
     # Deleting existing dock
     # There is a bug where existing docks are kept in-memory when closed via UI
     if self._dock:
-        print "Deleting existing dock..."
+        print("Deleting existing dock...")
         parent = self._dock
         dialog = None
         stacked_widget = None
