@@ -5,3 +5,15 @@ python:
 
 script:
 - pip install file://$(pwd)
+
+deploy:
+  provider: pypi
+  user: mottosso
+  distributions: "sdist bdist_wheel"
+  password:
+    secure: oZcUd4qb0mcBZ/eGDoTJc74DM/fNKad5nO6KsxOfXREKqocYMgiGfZDBEqHl16rLKa6geDdurCR8jVg6dGFNVesfNEx1ttCrefTu6xCZ6Z+KXtY1JAxkCGhST36/SXQ0tyFmN+165MX3BsciCEVEJHrnhmJVx/l17awRxuKkZgQ=
+  on:
+    tags: true
+    python: 2.7
+
+sudo: false
