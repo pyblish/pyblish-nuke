@@ -1,14 +1,19 @@
 """This setup script packages pyblish_nuke"""
 
 import os
-import imp
-
+import sys
 from setuptools import setup, find_packages
 
+version = []
 
-version_file = os.path.abspath("pyblish_nuke/version.py")
-version_mod = imp.load_source("version", version_file)
-version = version_mod.version
+with open("pyblish_nuke/version.py") as f:
+    for line in f:
+        if not line.startswith("VERSION_"):
+            continue
+        _, v = line.rstrip().split(" = ")
+        version += [v]
+
+version = ".".join(version)
 
 
 classifiers = [
@@ -19,8 +24,9 @@ classifiers = [
     "Programming Language :: Python :: 2",
     "Programming Language :: Python :: 2.6",
     "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3.7",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Utilities"
+    "Topic :: Utilities",
 ]
 
 
@@ -35,11 +41,6 @@ setup(
     description="Maya Pyblish package",
     zip_safe=False,
     classifiers=classifiers,
-    package_data={
-        "pyblish_nuke": ["plugins/*.py",
-                         "nuke_path/*.py"]
-    },
-    install_requires=[
-        "pyblish-base>=1.4"
-    ],
+    package_data={"pyblish_nuke": ["plugins/*.py", "nuke_path/*.py"]},
+    install_requires=["pyblish-base>=1.4"],
 )
