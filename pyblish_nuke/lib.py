@@ -225,7 +225,7 @@ def publish():
     QtCore.QTimer.singleShot(10, publish_iter)
 
 
-def _show_no_gui():
+def _show_no_gui(_parent=None):
     """Popup with information about how to register a new GUI
 
     In the event of no GUI being registered or available,
