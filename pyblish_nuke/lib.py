@@ -170,7 +170,7 @@ class Splash(QtWidgets.QWidget):
         layout = QtWidgets.QVBoxLayout(self)
         layout.addWidget(image)
 
-        self.bar = QtGui.QProgressBar()
+        self.bar = QtWidgets.QProgressBar()
         layout.addWidget(self.bar)
 
         # Center widget on screen
