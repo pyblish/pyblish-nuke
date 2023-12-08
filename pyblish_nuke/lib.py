@@ -175,6 +175,11 @@ class Splash(QtWidgets.QWidget):
 
         # Center widget on screen
         self.resize(100, 100)
+        
+        frame_rect = self.frameGeometry()
+        center_point = QtWidgets.QDesktopWidget().availableGeometry().center()
+        frame_rect.moveCenter(center_point)
+        self.move(frame_rect.topLeft())
 
 
 def publish():
