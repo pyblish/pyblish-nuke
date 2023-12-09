@@ -41,6 +41,6 @@ setup(
     description="Maya Pyblish package",
     zip_safe=False,
     classifiers=classifiers,
-    package_data={"pyblish_nuke": ["plugins/*.py", "nuke_path/*.py"]},
+    package_data={"pyblish_nuke": ["plugins/*.py", "nuke_path/*.py", "*.png"]]},
     install_requires=["pyblish-base>=1.4"],
 )
