@@ -177,7 +177,7 @@ class Splash(QtWidgets.QWidget):
         self.resize(100, 100)
 
         # code was so far only tested on Linux/X11 with 1 and 2 screens
-        if sys.platform == "linux" and os.environ['XDG_SESSION_TYPE'] == "x11":
+        if sys.platform == "linux" and os.environ.get('XDG_SESSION_TYPE',None) == "x11":
             frame_rect = self.frameGeometry()
             center_point = QtWidgets.QDesktopWidget().availableGeometry().center()
             frame_rect.moveCenter(center_point)
